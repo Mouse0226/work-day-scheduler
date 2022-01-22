@@ -23,6 +23,52 @@ var auditTime = function(textEl) {
     }
 };
 
+var loadData = function() {
+    savedTasks = JSON.parse(localStorage.getItem("tasks"));
+
+    if (!savedTasks) {
+        return false;
+    }
+
+    for (var i = 0; i < savedTasks.length; i++) {
+        populateData(savedTasks[i]);
+    }
+}
+
+var populateData = function(saveTaskObj) {
+    switch (saveTaskObj.time) {
+        case "9AM":
+            $('#text-9am').val(saveTaskObj.text);
+            break;
+        case "10AM":
+            $('#text-10am').val(saveTaskObj.text);
+            break;
+        case "11AM":
+            $('#text-11am').val(saveTaskObj.text);
+            break;
+        case "12PM":
+            $('#text-12pm').val(saveTaskObj.text);
+            break;
+        case "1PM":
+            $('#text-1pm').val(saveTaskObj.text);
+            break;
+        case "2PM":
+            $('#text-2pm').val(saveTaskObj.text);
+            break;
+        case "3PM":
+            $('#text-3pm').val(saveTaskObj.text);
+            break;
+        case "4PM":
+            $('#text-4pm').val(saveTaskObj.text);
+            break;
+        case "5PM":
+            $('#text-5pm').val(saveTaskObj.text);
+            break;
+        default:
+            break;
+    }
+}
+
 $(".container #save-9").click(function() {
     var taskTime = "9AM"
     var taskText = ($("#text-9am").val());
@@ -78,23 +124,27 @@ $(".container #save-5").click(function() {
 })
 
 var savetext = function(taskTime, taskText) {
-    var saveTask = {
+    var saveTaskObj = {
         time: taskTime,
         text: taskText
     }
 
     var storeTask = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    storeTask.push(saveTask);
+    storeTask.push(saveTaskObj);
     localStorage.setItem("tasks", JSON.stringify(storeTask));
 }
 
+// Set day in Jumbotron
 setCurrentDay();
 
 // Prime Time Slots
 $(".row").each(function(index, el) {
     auditTime(el)
 })
+
+// Load and populate tasks from local storage
+loadData();
 
 // Refresh time slots at intervals
 setInterval(function() {
